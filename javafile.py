@@ -1,3 +1,5 @@
+import re
+
 # the class represent a java file
 class JavaFile:
     def __init__(self) -> None:
@@ -18,6 +20,16 @@ class JavaFile:
             self.total_str += line  # add each line to 'total_str'
 
         tmp_file.close()
+    
+    def remove_comment(self) -> None:
+        """
+        remove the comment in the 'total_str'
+        """
+        regex_pattern = "\/\/.*|\/\*(.|\n)*?\*\/" # the regular expression for comment
+        
+        # replace the comments with empty string, i.e. remove all the comments
+        self.total_str = re.sub(regex_pattern, "", self.total_str)
+
 
 # test code
 if __name__ == "__main__":
@@ -32,5 +44,8 @@ if __name__ == "__main__":
     for file_path in file_paths:
         tmp_java_file = JavaFile()
         tmp_java_file.load_file(file_path)
+
+        tmp_java_file.remove_comment()
+
         print(tmp_java_file.total_str) # print the text in the file
 
