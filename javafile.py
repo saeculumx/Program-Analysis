@@ -1,9 +1,21 @@
-import re
+import re, os
 
+
+def modify_path(path, num_elements_to_remove, file_extension):
+    # Split the path into parts
+    parts = path.split(os.path.sep)
+
+    # Remove the specified number of elements from the beginning
+    remaining_parts = parts[num_elements_to_remove:]
+
+    # Remove file extension and join parts with dots
+    modified_path = ".".join(remaining_parts).replace(file_extension, "").replace(os.path.sep, ".")
+
+    return modified_path
 # the class represent a java file
 class JavaFile:
     def __init__(self) -> None:
-        self.id = ""  # the idenfication of the java file, e,g. dtu.deps.tricky.Example
+        self.id = ""  # the identification of the java file, e,g. dtu.deps.tricky.Example
         self.file_name = ""  # the name of the java file, e.g. Example
         self.own_class_list = []  # the classes owned by the file, e.g. ["Tricky"]
         self.total_str = ""  # the string containing all the text in the file
@@ -18,9 +30,11 @@ class JavaFile:
         str_list = tmp_file.readlines()
         for line in str_list:
             self.total_str += line  # add each line to 'total_str'
-
+        self.file_name = modify_path(file_path,4,".java")
+        # print(self.file_name)
         tmp_file.close()
-    
+        return self.file_name
+
     def remove_comment(self) -> None:
         """
         remove the comment in the 'total_str'
@@ -43,9 +57,10 @@ if __name__ == "__main__":
     
     for file_path in file_paths:
         tmp_java_file = JavaFile()
-        tmp_java_file.load_file(file_path)
-
+        filename = tmp_java_file.load_file(file_path)
         tmp_java_file.remove_comment()
-
-        print(tmp_java_file.total_str) # print the text in the file
+        # print(root_directory_path, file_path)
+        # print(tmp_java_file.total_str) # print the text in the file
+        with open(filename + ".txt", "w") as f:
+            f.write(tmp_java_file.total_str)
 

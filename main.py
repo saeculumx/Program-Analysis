@@ -5,11 +5,11 @@ import load
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-root = r"D:\Code\course-02242-examples\src\dependencies\java\dtu\deps"
+root = r"course-02242-examples/src/dependencies/java/dtu/deps"
 paths = []
 if __name__ == '__main__':
     i = 0
-    for p in glob.glob(r"D:\Code\course-02242-examples\src\dependencies\java\dtu\deps\**/*.java", recursive=True):
+    for p in glob.glob(r"course-02242-examples/src/dependencies/java/dtu/deps/**/*.java", recursive=True):
         paths.append(p)
     for path in paths:
         full = []

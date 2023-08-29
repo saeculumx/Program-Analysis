@@ -1,0 +1,23 @@
+package dtu.deps.tricky;
+
+
+
+
+
+
+import dtu.deps.simple.*;
+import dtu.deps.util.*;
+
+public class Tricky {
+    Example  Other = new Example();
+
+    Tricky dtu, deps, simple;
+
+    private <Other> void hello( Utils Other) {
+        Tricky dtu = new Tricky();
+        dtu.deps.simple.Other = new Example();
+    }
+    private <Other> void Other(Other Other) {
+        return;
+    }
+}
