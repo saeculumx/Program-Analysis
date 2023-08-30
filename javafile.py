@@ -47,7 +47,7 @@ class JavaFile:
         """
         remove the strings matching the reg_pattern in 'total_str'
         """
-        # replace the matched strings with empty string, i.e. remove all the comments
+        # replace the matched strings with empty string, i.e. remove all the matching pattern
         self.total_str = re.sub(reg_pattern, "", self.total_str)
 
     def remove_comment(self) -> None:
