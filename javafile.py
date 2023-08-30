@@ -34,6 +34,13 @@ class JavaFile:
         # print(self.file_name)
         tmp_file.close()
         return self.file_name
+    
+    def remove_regex(self, reg_pattern: str) -> None:
+        """
+        remove the strings matching the reg_pattern in 'total_str'
+        """
+        # replace the matched strings with empty string, i.e. remove all the comments
+        self.total_str = re.sub(reg_pattern, "", self.total_str)
 
     def remove_comment(self) -> None:
         """
@@ -42,7 +49,7 @@ class JavaFile:
         regex_pattern = "\/\/.*|\/\*(.|\n)*?\*\/" # the regular expression for comment
         
         # replace the comments with empty string, i.e. remove all the comments
-        self.total_str = re.sub(regex_pattern, "", self.total_str)
+        self.remove_regex(regex_pattern)
 
 
 # test code
