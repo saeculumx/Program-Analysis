@@ -181,6 +181,7 @@ class JavaFile:
         self.get_import_file_list()
         self.get_import_package_list()
         self.get_new_class_list()
+        self.add_lang_dependency()
 
         # print(self.id, self.own_class_list, self.import_file_list, self.import_package_list, self.new_class_list)
     
@@ -206,6 +207,54 @@ class JavaFile:
         result = re.search(java_file.id, self.total_str)
         if result != None:
             self.dependency_list.append(java_file.id)
+
+    def add_lang_dependency(self) -> None:
+        """
+        add the dependencies from lang
+        """
+        lang_dependencies_list = [
+            "Boolean",
+            "Byte",
+            "Character",
+            "Class",
+            "ClassLoader",
+            "ClassValue",
+            "Compiler",
+            "Double",
+            "Enu",
+            "Float",
+            "InheritableThreadLoca",
+            "Integer",
+            "Long",
+            "Math",
+            "Number",
+            "Object",
+            "Package",
+            "Process",
+            "ProcessBuilder",
+            "Runtime",
+            "RuntimePermission",
+            "SecurityManager",
+            "Short",
+            "StackTraceElement",
+            "StrictMath",
+            "String",
+            "StringBuffer",
+            "StringBuilder",
+            "System",
+            "Thread",
+            "ThreadGroup",
+            "ThreadLocal",
+            "Throwable",
+            "Void",
+        ]
+        
+        # check if the classes in lang are used
+        for class_name in lang_dependencies_list:
+            result = re.search(class_name, self.total_str)
+            if result != None:
+                self.dependency_list.append("java.lang." + class_name)
+
 
 # test code
 if __name__ == "__main__":
