@@ -75,8 +75,18 @@ class JavaFile:
         # get the name of the package
         mathc_string: str = match_result.group()
         self.package_name = mathc_string.split(" ")[1]
-        print(self.package_name)
+        # print(self.package_name)
 
+    def get_id_and_package(self) -> None:
+        """
+        get the package_name and id of the java file
+        """
+        self.get_package_name()
+        # get the file name from self.file_name
+        dot_location = self.file_name.rfind(".")
+        file_name = self.file_name[dot_location + 1:]
+        self.id = self.package_name + "." + file_name
+        print(self.id)
 
 
 
@@ -95,7 +105,8 @@ if __name__ == "__main__":
         filename = tmp_java_file.load_file(file_path)
         tmp_java_file.remove_comment()
         tmp_java_file.remove_string()
-        tmp_java_file.get_package_name()
+        # tmp_java_file.get_package_name()
+        tmp_java_file.get_id_and_package()
 
         # print(root_directory_path, file_path)
         # print(tmp_java_file.total_str) # print the text in the file
