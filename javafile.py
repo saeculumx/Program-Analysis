@@ -173,6 +173,7 @@ class JavaFile:
         get imported class list,
         get imported package list
         get newed class list
+        add dependencies from lang
         """
         self.remove_comment()
         self.remove_string()
