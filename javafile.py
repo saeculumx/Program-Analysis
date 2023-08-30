@@ -126,6 +126,10 @@ class JavaFile:
 
         # print(self.id, self.import_file_list)
 
+        # add imported file to dependency list
+        for file in self.import_file_list:
+            self.dependency_list.append(file)
+
     def get_import_package_list(self) -> None:
         """
         get imported package list of the java file
