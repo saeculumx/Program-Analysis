@@ -117,6 +117,10 @@ class JavaFile:
             tmp_str_list: List[str] = result.split(" ")
             for tmp_str in tmp_str_list[1:]:
                 if len(tmp_str) > 1:
+                    # remove ';'
+                    semicolon_loc = tmp_str.rfind(";")
+                    if semicolon_loc != -1:
+                        tmp_str = tmp_str[:semicolon_loc]
                     self.import_file_list.append(tmp_str)
                     break
 
