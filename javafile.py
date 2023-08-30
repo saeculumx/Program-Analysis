@@ -88,8 +88,19 @@ class JavaFile:
         dot_location = self.file_name.rfind(".")
         file_name = self.file_name[dot_location + 1:]
         self.id = self.package_name + "." + file_name
-        print(self.id)
-
+        # print(self.id)
+    
+    def get_own_class_list(self) -> None:
+        """
+        get the owned class list of the java file
+        """
+        regex_pattern = "public\s+class\s+[\w.]+" # the regular expression for public class
+        match_results: List[re.Match] = re.findall(regex_pattern, self.total_str)
+        
+        # get the name of the class
+        for result in match_results:
+            self.own_class_list.append(result.split(" ")[-1])
+        print(self.own_class_list)
 
 
 # test code
