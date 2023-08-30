@@ -44,12 +44,23 @@ class JavaFile:
 
     def remove_comment(self) -> None:
         """
-        remove the comment in the 'total_str'
+        remove the comments in the 'total_str'
         """
         regex_pattern = "\/\/.*|\/\*(.|\n)*?\*\/" # the regular expression for comment
         
         # replace the comments with empty string, i.e. remove all the comments
         self.remove_regex(regex_pattern)
+
+    def remove_string(self) -> None:
+        """
+        remove the strings in the 'total_str'
+        """
+        regex_pattern = "\"\"\"\n(.|\n)*?\"\"\"" # the regular expression for string blockhh
+        self.remove_regex(regex_pattern) # remove string block
+        
+        regex_pattern = "\".*?\"" # the regular expression for one-line string
+        self.remove_regex(regex_pattern) # remove one-line string
+
 
 
 # test code
@@ -66,6 +77,7 @@ if __name__ == "__main__":
         tmp_java_file = JavaFile()
         filename = tmp_java_file.load_file(file_path)
         tmp_java_file.remove_comment()
+        tmp_java_file.remove_string()
         # print(root_directory_path, file_path)
         # print(tmp_java_file.total_str) # print the text in the file
         with open(filename + ".txt", "w") as f:
