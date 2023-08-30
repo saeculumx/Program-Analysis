@@ -120,19 +120,25 @@ class JavaFile:
                     self.import_file_list.append(tmp_str)
                     break
 
-        print(self.id, self.import_file_list)
+        # print(self.id, self.import_file_list)
 
     def get_import_package_list(self) -> None:
         """
         get imported package list of the java file
         """
-        regex_pattern = "import\s+[\w.]+\*;" # the regular expression for import package
+        regex_pattern = "import\s+[\w.]+\*\s*;" # the regular expression for import package
         match_results: List[re.Match] = re.findall(regex_pattern, self.total_str)
 
         # get the name of the imported packages
         for result in match_results:
-            self.import_package_list.append(result.split(" ")[-1][:-1])
-        # print(self.id, self.import_package_list)
+            tmp_str_list: List[str] = result.split(" ")
+            for tmp_str in tmp_str_list[1:]:
+                if len(tmp_str) > 1:
+                    # remove '.*'
+                    dot_location = tmp_str.rfind(".")
+                    self.import_package_list.append(tmp_str[:dot_location])
+                    break
+        print(self.id, self.import_package_list)
     
     def init(self) -> None:
         """
