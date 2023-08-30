@@ -1,5 +1,14 @@
 digraph SourceGraph {
-a [label="my.package.Factory"];
-b [label="my.other.Item"];
-a -> b;
+a [label="java.lang.System"];
+b [label="dtu.deps.util.Utils"];
+c [label="dtu.deps.tricky.Tricky"]
+d [label="dtu.deps.simple.Example"]
+e [label="dtu.deps.simple.Other"]
+f [label="java.lang.String"]
+g [label="dtu.deps.normal.Primes"]
+h [label="java.util.ArrayList"]
+i [label="java.util.Iterator"]
+j [label="java.util.List"]
+k [label="java.lang.Integer"]
+b->a;
 }
