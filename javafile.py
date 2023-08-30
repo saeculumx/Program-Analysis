@@ -66,7 +66,7 @@ class JavaFile:
         """
         get the package_name from the 'total_str'
         """
-        regex_pattern = "package [\w.]+" # the regular expression for package
+        regex_pattern = "package\s+[\w.]+" # the regular expression for package
         match_result: re.Match = re.search(regex_pattern, self.total_str) # search the package name
 
         if match_result == None:
@@ -74,8 +74,8 @@ class JavaFile:
         
         # get the name of the package
         mathc_string: str = match_result.group()
-        self.package_name = mathc_string.split(" ")[1]
-        # print(self.package_name)
+        self.package_name = mathc_string.split(" ")[-1]
+        print(self.package_name)
 
     def get_id_and_package(self) -> None:
         """
@@ -105,8 +105,8 @@ if __name__ == "__main__":
         filename = tmp_java_file.load_file(file_path)
         tmp_java_file.remove_comment()
         tmp_java_file.remove_string()
-        # tmp_java_file.get_package_name()
-        tmp_java_file.get_id_and_package()
+        tmp_java_file.get_package_name()
+        # tmp_java_file.get_id_and_package()
 
         # print(root_directory_path, file_path)
         # print(tmp_java_file.total_str) # print the text in the file
