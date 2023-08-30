@@ -107,7 +107,7 @@ class JavaFile:
         """
         get imported file list of the java file
         """
-        regex_pattern = "import\s+[\w.]+;" # the regular expression for public class
+        regex_pattern = "import\s+[\w.]+;" # the regular expression for import file
         match_results: List[re.Match] = re.findall(regex_pattern, self.total_str)
 
         # get the name of the imported file
