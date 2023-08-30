@@ -146,7 +146,21 @@ class JavaFile:
                     dot_location = tmp_str.rfind(".")
                     self.import_package_list.append(tmp_str[:dot_location])
                     break
-        print(self.id, self.import_package_list)
+        # print(self.id, self.import_package_list)
+    
+    def get_new_class_list(self) -> None:
+        """
+        get the list of the class newed by the file
+        """
+        regex_pattern = "new\s+\w+" # the regular expression for new class
+        match_results: List[re.Match] = re.findall(regex_pattern, self.total_str)
+
+        # get the names of the newed classes
+        for result in match_results:
+            self.new_class_list.append(result.split(" ")[-1])
+
+        # remove duplicates
+        self.new_class_list = list(set(self.new_class_list))
     
     def init(self) -> None:
         """
