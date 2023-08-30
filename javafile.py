@@ -109,13 +109,18 @@ class JavaFile:
         """
         get imported file list of the java file
         """
-        regex_pattern = "import\s+[\w.]+;" # the regular expression for import file
+        regex_pattern = "import\s+[\w.]+\s*;" # the regular expression for import file
         match_results: List[re.Match] = re.findall(regex_pattern, self.total_str)
 
         # get the name of the imported file
         for result in match_results:
-            self.import_file_list.append(result.split(" ")[-1][:-1])
-        # print(self.id, self.import_file_list)
+            tmp_str_list: List[str] = result.split(" ")
+            for tmp_str in tmp_str_list[1:]:
+                if len(tmp_str) > 1:
+                    self.import_file_list.append(tmp_str)
+                    break
+
+        print(self.id, self.import_file_list)
 
     def get_import_package_list(self) -> None:
         """
@@ -145,7 +150,7 @@ class JavaFile:
         self.get_import_file_list()
         self.get_import_package_list()
 
-        print(self.id, self.own_class_list, self.import_file_list, self.import_package_list)
+        # print(self.id, self.own_class_list, self.import_file_list, self.import_package_list)
 
 
 # test code
