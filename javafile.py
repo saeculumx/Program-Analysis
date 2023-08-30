@@ -24,6 +24,7 @@ class JavaFile:
         self.package_name = "" # the name of the package the file belonging to
         self.import_file_list = [] # the files imported by the file, i.e. ['dtu.deps.util.Util']
         self.import_package_list = [] # the packages imported by the file, i.e. ['dtu.deps.util']
+        self.dependency_list = [] # the dependency list of the java file
 
     def load_file(self, file_path: str) -> None:
         """
@@ -126,7 +127,25 @@ class JavaFile:
         # get the name of the imported packages
         for result in match_results:
             self.import_package_list.append(result.split(" ")[-1][:-1])
-        print(self.id, self.import_package_list)
+        # print(self.id, self.import_package_list)
+    
+    def init(self) -> None:
+        """
+        initialize the JavaFile,
+        remove all the comments and strings,
+        get the package name and id,
+        get owned class list,
+        get imported class list,
+        get imported package list
+        """
+        self.remove_comment()
+        self.remove_string()
+        self.get_id_and_package()
+        self.get_own_class_list()
+        self.get_import_file_list()
+        self.get_import_package_list()
+
+        print(self.id, self.own_class_list, self.import_file_list, self.import_package_list)
 
 
 # test code
@@ -142,16 +161,18 @@ if __name__ == "__main__":
     for file_path in file_paths:
         tmp_java_file = JavaFile()
         filename = tmp_java_file.load_file(file_path)
-        tmp_java_file.remove_comment()
-        tmp_java_file.remove_string()
-        # tmp_java_file.get_package_name()
-        tmp_java_file.get_id_and_package()
-        tmp_java_file.get_own_class_list()
-        tmp_java_file.get_import_file_list()
-        tmp_java_file.get_import_package_list()
+        # tmp_java_file.remove_comment()
+        # tmp_java_file.remove_string()
+        # # tmp_java_file.get_package_name()
+        # tmp_java_file.get_id_and_package()
+        # tmp_java_file.get_own_class_list()
+        # tmp_java_file.get_import_file_list()
+        # tmp_java_file.get_import_package_list()
+        tmp_java_file.init()
 
         # print(root_directory_path, file_path)
         # print(tmp_java_file.total_str) # print the text in the file
         with open(filename + ".txt", "w") as f:
             f.write(tmp_java_file.total_str)
+
 
