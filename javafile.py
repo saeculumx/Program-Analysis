@@ -19,12 +19,12 @@ class JavaFile:
     def __init__(self) -> None:
         self.id = ""  # the identification of the java file, e,g. dtu.deps.tricky.Example
         self.file_name = ""  # the name of the java file, e.g. Example
-        self.own_class_list = []  # the classes owned by the file, e.g. ["Tricky"]
+        self.own_class_list: List[str] = []  # the classes owned by the file, e.g. ["Tricky"]
         self.total_str = ""  # the string containing all the text in the file
         self.package_name = "" # the name of the package the file belonging to
-        self.import_file_list = [] # the files imported by the file, i.e. ['dtu.deps.util.Util']
-        self.import_package_list = [] # the packages imported by the file, i.e. ['dtu.deps.util']
-        self.dependency_list = [] # the dependency list of the java file
+        self.import_file_list: List[str] = [] # the files imported by the file, i.e. ['dtu.deps.util.Util']
+        self.import_package_list: List[str] = [] # the packages imported by the file, i.e. ['dtu.deps.util']
+        self.dependency_list: List[str] = [] # the dependency list of the java file
 
     def load_file(self, file_path: str) -> None:
         """
