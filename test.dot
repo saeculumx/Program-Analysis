@@ -1,0 +1,5 @@
+digraph SourceGraph {
+a [label="my.package.Factory"];
+b [label="my.other.Item"];
+a -> b;
+}
