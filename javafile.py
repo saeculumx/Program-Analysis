@@ -1,4 +1,6 @@
-import re, os
+import re
+import os
+from typing import List
 
 
 def modify_path(path, num_elements_to_remove, file_extension):
@@ -73,9 +75,9 @@ class JavaFile:
             raise Exception(f"Can't find package name in {self.file_name}")
         
         # get the name of the package
-        mathc_string: str = match_result.group()
-        self.package_name = mathc_string.split(" ")[-1]
-        print(self.package_name)
+        match_string: str = match_result.group()
+        self.package_name = match_string.split(" ")[-1]
+        # print(self.package_name)
 
     def get_id_and_package(self) -> None:
         """
@@ -105,8 +107,9 @@ if __name__ == "__main__":
         filename = tmp_java_file.load_file(file_path)
         tmp_java_file.remove_comment()
         tmp_java_file.remove_string()
-        tmp_java_file.get_package_name()
-        # tmp_java_file.get_id_and_package()
+        # tmp_java_file.get_package_name()
+        tmp_java_file.get_id_and_package()
+        tmp_java_file.get_own_class_list()
 
         # print(root_directory_path, file_path)
         # print(tmp_java_file.total_str) # print the text in the file
