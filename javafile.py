@@ -23,6 +23,7 @@ class JavaFile:
         self.total_str = ""  # the string containing all the text in the file
         self.package_name = "" # the name of the package the file belonging to
         self.import_file_list = [] # the files imported by the file, i.e. ['dtu.deps.util.Util']
+        self.import_package_list = [] # the packages imported by the file, i.e. ['dtu.deps.util']
 
     def load_file(self, file_path: str) -> None:
         """
@@ -113,7 +114,19 @@ class JavaFile:
         # get the name of the imported file
         for result in match_results:
             self.import_file_list.append(result.split(" ")[-1][:-1])
-        print(self.id, self.import_file_list)
+        # print(self.id, self.import_file_list)
+
+    def get_import_package_list(self) -> None:
+        """
+        get imported package list of the java file
+        """
+        regex_pattern = "import\s+[\w.]+\*;" # the regular expression for import package
+        match_results: List[re.Match] = re.findall(regex_pattern, self.total_str)
+
+        # get the name of the imported packages
+        for result in match_results:
+            self.import_package_list.append(result.split(" ")[-1][:-1])
+        print(self.id, self.import_package_list)
 
 
 # test code
@@ -135,6 +148,7 @@ if __name__ == "__main__":
         tmp_java_file.get_id_and_package()
         tmp_java_file.get_own_class_list()
         tmp_java_file.get_import_file_list()
+        tmp_java_file.get_import_package_list()
 
         # print(root_directory_path, file_path)
         # print(tmp_java_file.total_str) # print the text in the file
