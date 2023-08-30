@@ -1,3 +1,4 @@
+from __future__ import annotations
 import re
 import os
 from typing import List
@@ -24,6 +25,7 @@ class JavaFile:
         self.package_name = "" # the name of the package the file belonging to
         self.import_file_list: List[str] = [] # the files imported by the file, i.e. ['dtu.deps.util.Util']
         self.import_package_list: List[str] = [] # the packages imported by the file, i.e. ['dtu.deps.util']
+        self.new_class_list: List[str] = [] # the class newed by the file
         self.dependency_list: List[str] = [] # the dependency list of the java file
 
     def load_file(self, file_path: str) -> None:
@@ -170,6 +172,7 @@ class JavaFile:
         get owned class list,
         get imported class list,
         get imported package list
+        get newed class list
         """
         self.remove_comment()
         self.remove_string()
@@ -177,9 +180,32 @@ class JavaFile:
         self.get_own_class_list()
         self.get_import_file_list()
         self.get_import_package_list()
+        self.get_new_class_list()
 
-        # print(self.id, self.own_class_list, self.import_file_list, self.import_package_list)
+        # print(self.id, self.own_class_list, self.import_file_list, self.import_package_list, self.new_class_list)
+    
+    def add_dependency_if_depended(self, java_file: JavaFile) -> None:
+        """
+        add the id of 'java_file' to the dependency list if it depends on 'java_file'
+        """
+        # return if it's already recored
+        if java_file.id in self.dependency_list:
+            return
 
+        # check if package list matched
+        if java_file.package_name in self.import_package_list or java_file.package_name == self.package_name:
+            # print(java_file.id, "is found in", self.id)
+            for owned_class in java_file.own_class_list:
+                # check if its class is used
+                if owned_class in self.new_class_list:
+                    # print("found", owned_class, "from", java_file.id, "in", self.id)
+                    self.dependency_list.append(java_file.id)
+                    return
+        
+        # check direct import
+        result = re.search(java_file.id, self.total_str)
+        if result != None:
+            self.dependency_list.append(java_file.id)
 
 # test code
 if __name__ == "__main__":
@@ -191,6 +217,8 @@ if __name__ == "__main__":
     for file_path in glob.glob("./" + root_directory_path + "/**/*.java", recursive=True):
         file_paths.append(file_path)
     
+    java_file_list: List[JavaFile] = []
+
     for file_path in file_paths:
         tmp_java_file = JavaFile()
         filename = tmp_java_file.load_file(file_path)
@@ -202,10 +230,22 @@ if __name__ == "__main__":
         # tmp_java_file.get_import_file_list()
         # tmp_java_file.get_import_package_list()
         tmp_java_file.init()
+        java_file_list.append(tmp_java_file)
 
         # print(root_directory_path, file_path)
         # print(tmp_java_file.total_str) # print the text in the file
         with open(filename + ".txt", "w") as f:
             f.write(tmp_java_file.total_str)
+    
+    # add dependency
+    for java_file in java_file_list:
+        for tmp_java_file in java_file_list:
+            if java_file == tmp_java_file:
+                continue
+            java_file.add_dependency_if_depended(tmp_java_file)
+    
+    # show the dependencies
+    for java_file in java_file_list:
+        print(java_file.id, java_file.dependency_list)
 
 
