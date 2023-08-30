@@ -19,6 +19,7 @@ class JavaFile:
         self.file_name = ""  # the name of the java file, e.g. Example
         self.own_class_list = []  # the classes owned by the file, e.g. ["Tricky"]
         self.total_str = ""  # the string containing all the text in the file
+        self.package_name = "" # the name of the package the file belonging to
 
     def load_file(self, file_path: str) -> None:
         """
@@ -60,6 +61,22 @@ class JavaFile:
         
         regex_pattern = "\".*?\"" # the regular expression for one-line string
         self.remove_regex(regex_pattern) # remove one-line string
+    
+    def get_package_name(self) -> None:
+        """
+        get the package_name from the 'total_str'
+        """
+        regex_pattern = "package [\w.]+" # the regular expression for package
+        match_result: re.Match = re.search(regex_pattern, self.total_str) # search the package name
+
+        if match_result == None:
+            raise Exception(f"Can't find package name in {self.file_name}")
+        
+        # get the name of the package
+        mathc_string: str = match_result.group()
+        self.package_name = mathc_string.split(" ")[1]
+        print(self.package_name)
+
 
 
 
@@ -78,6 +95,8 @@ if __name__ == "__main__":
         filename = tmp_java_file.load_file(file_path)
         tmp_java_file.remove_comment()
         tmp_java_file.remove_string()
+        tmp_java_file.get_package_name()
+
         # print(root_directory_path, file_path)
         # print(tmp_java_file.total_str) # print the text in the file
         with open(filename + ".txt", "w") as f:
