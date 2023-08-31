@@ -353,12 +353,12 @@ if __name__ == "__main__":
     for java_file in java_file_list:
         print(java_file.id, java_file.dependency_list)
 
-    drawer = Painter()
+    painter = Painter()
 
     for java_file in java_file_list:
-        drawer.add_one(java_file)
+        painter.add_one(java_file)
     
-    # drawer.generate_dot_code()
-    # print(drawer.dot_code)
-    drawer.generate_graph_and_show()
+    painter.generate_dot_code()
+    # print(painter.dot_code)
+    painter.generate_graph_and_show()
 
