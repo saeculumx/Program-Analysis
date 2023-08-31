@@ -257,7 +257,7 @@ class JavaFile:
                 self.dependency_list.append("java.lang." + class_name)
 
 # class that draws the dependency graph
-class Drawer:
+class Painter:
     def __init__(self) -> None:
         self.javafile_list: List[JavaFile] = [] # the list containing all the javafile
         self.dot_code = "" # the dot code representing the graph
@@ -342,7 +342,7 @@ if __name__ == "__main__":
     for java_file in java_file_list:
         print(java_file.id, java_file.dependency_list)
 
-    drawer = Drawer()
+    drawer = Painter()
 
     for java_file in java_file_list:
         drawer.add_one(java_file)
