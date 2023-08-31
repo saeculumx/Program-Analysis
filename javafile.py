@@ -301,6 +301,17 @@ class Painter:
         with open(dot_file_path, "w") as f:
             f.write(self.dot_code)
 
+    def generate_graph_and_show(self) -> None:
+        """
+        generate the graph using dot
+        """
+        self.generate_dot_code()
+        command = f".\\Graphviz\\bin\\dot.exe -Tpng .\\result.dot -o result.png"
+        os.system(command)
+        command = f".\\result.png"
+        os.system(command)
+        # print(command)
+
 # test code
 if __name__ == "__main__":
     import glob
@@ -347,6 +358,7 @@ if __name__ == "__main__":
     for java_file in java_file_list:
         drawer.add_one(java_file)
     
-    drawer.generate_dot_code()
+    # drawer.generate_dot_code()
     # print(drawer.dot_code)
+    drawer.generate_graph_and_show()
 
