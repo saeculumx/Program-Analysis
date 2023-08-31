@@ -1,7 +1,7 @@
 from __future__ import annotations
 import re
 import os
-from typing import List
+from typing import List, Dict
 
 
 def modify_path(path, num_elements_to_remove, file_extension):
@@ -256,6 +256,50 @@ class JavaFile:
             if result != None:
                 self.dependency_list.append("java.lang." + class_name)
 
+# class that draws the dependency graph
+class Drawer:
+    def __init__(self) -> None:
+        self.javafile_list: List[JavaFile] = [] # the list containing all the javafile
+        self.dot_code = "" # the dot code representing the graph
+    
+    def add_one(self, java_file: JavaFile) -> None:
+        """
+        add one java file to the list
+        """
+        self.javafile_list.append(java_file)
+    
+    def generate_dot_code(self) -> None:
+        """
+        generate the dot code
+        save the code into './result.dot'
+        """
+        dot_id_map: Dict[str, str] = {} # the map for javafile id and dot id
+        self.dot_code = "digraph SourceGra {\n" # the code for the dot file
+        dot_id = 0 # the id for javafile in dot code
+
+        # allocate the dot id to each javafile
+        for java_file in self.javafile_list:
+            if java_file.id not in dot_id_map:
+                dot_id_map[java_file.id] = str(dot_id)
+                dot_id += 1
+
+            for tmp_file_id in java_file.dependency_list:
+                if tmp_file_id not in dot_id_map:
+                    dot_id_map[tmp_file_id] = str(dot_id)
+                    dot_id += 1
+        
+        for java_id in dot_id_map:
+            self.dot_code += f"x{dot_id_map[java_id]} [label = \"{java_id}\";\n]"
+
+        for java_file in self.javafile_list:
+            for depend_file_id in java_file.dependency_list:
+                self.dot_code += f"x{dot_id_map[java_file.id]} -> x{dot_id_map[depend_file_id]};\n"
+        
+        self.dot_code += "}" # add last brace
+
+        dot_file_path = "./result.dot"
+        with open(dot_file_path, "w") as f:
+            f.write(self.dot_code)
 
 # test code
 if __name__ == "__main__":
@@ -298,4 +342,11 @@ if __name__ == "__main__":
     for java_file in java_file_list:
         print(java_file.id, java_file.dependency_list)
 
+    drawer = Drawer()
+
+    for java_file in java_file_list:
+        drawer.add_one(java_file)
+    
+    drawer.generate_dot_code()
+    # print(drawer.dot_code)
 
