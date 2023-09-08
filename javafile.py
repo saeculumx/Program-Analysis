@@ -15,7 +15,7 @@ def modify_path(path, num_elements_to_remove, file_extension):
     modified_path = ".".join(remaining_parts).replace(file_extension, "").replace(os.path.sep, ".")
 
     return modified_path
-# the class represent a java file
+# the classBuilder.py represent a java file
 class JavaFile:
     def __init__(self) -> None:
         self.id = ""  # the identification of the java file, e,g. dtu.deps.tricky.Example
@@ -25,7 +25,7 @@ class JavaFile:
         self.package_name = "" # the name of the package the file belonging to
         self.import_file_list: List[str] = [] # the files imported by the file, i.e. ['dtu.deps.util.Util']
         self.import_package_list: List[str] = [] # the packages imported by the file, i.e. ['dtu.deps.util']
-        self.new_class_list: List[str] = [] # the class newed by the file
+        self.new_class_list: List[str] = [] # the classBuilder.py newed by the file
         self.dependency_list: List[str] = [] # the dependency list of the java file
 
     def load_file(self, file_path: str) -> None:
@@ -97,12 +97,12 @@ class JavaFile:
     
     def get_own_class_list(self) -> None:
         """
-        get the owned class list of the java file
+        get the owned classBuilder.py list of the java file
         """
-        regex_pattern = "public\s+class\s+[\w.]+" # the regular expression for public class
+        regex_pattern = "public\s+classBuilder.py\s+[\w.]+" # the regular expression for public classBuilder.py
         match_results: List[re.Match] = re.findall(regex_pattern, self.total_str)
         
-        # get the name of the class
+        # get the name of the classBuilder.py
         for result in match_results:
             self.own_class_list.append(result.split(" ")[-1])
         # print(self.own_class_list)
@@ -152,9 +152,9 @@ class JavaFile:
     
     def get_new_class_list(self) -> None:
         """
-        get the list of the class newed by the file
+        get the list of the classBuilder.py newed by the file
         """
-        regex_pattern = "new\s+\w+" # the regular expression for new class
+        regex_pattern = "new\s+\w+" # the regular expression for new classBuilder.py
         match_results: List[re.Match] = re.findall(regex_pattern, self.total_str)
 
         # get the names of the newed classes
@@ -169,10 +169,10 @@ class JavaFile:
         initialize the JavaFile,
         remove all the comments and strings,
         get the package name and id,
-        get owned class list,
-        get imported class list,
+        get owned classBuilder.py list,
+        get imported classBuilder.py list,
         get imported package list
-        get newed class list
+        get newed classBuilder.py list
         add dependencies from lang
         """
         self.remove_comment()
@@ -198,7 +198,7 @@ class JavaFile:
         if java_file.package_name in self.import_package_list or java_file.package_name == self.package_name:
             # print(java_file.id, "is found in", self.id)
             for owned_class in java_file.own_class_list:
-                # check if its class is used
+                # check if its classBuilder.py is used
                 if owned_class in self.new_class_list:
                     # print("found", owned_class, "from", java_file.id, "in", self.id)
                     self.dependency_list.append(java_file.id)
@@ -256,7 +256,7 @@ class JavaFile:
             if result != None:
                 self.dependency_list.append("java.lang." + class_name)
 
-# class that draws the dependency graph
+# classBuilder.py that draws the dependency graph
 class Painter:
     def __init__(self) -> None:
         self.javafile_list: List[JavaFile] = [] # the list containing all the javafile

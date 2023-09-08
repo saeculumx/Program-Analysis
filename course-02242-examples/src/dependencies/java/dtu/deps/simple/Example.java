@@ -14,6 +14,7 @@ import dtu.deps.util.Utils;
  *
  * Known dependencies:
  */
+
 public class Example {
     Other other = new Other();
 
